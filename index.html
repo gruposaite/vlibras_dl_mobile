@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>VLibras Flutter</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 16px; }
+  </style>
+</head>
+<body>
+  <div id="conteudo">Aguardando texto do Flutter...</div>
+
+  <!-- Plugin VLibras -->
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+
+  <script>
+    // Carrega o script do VLibras de forma segura
+    const script = document.createElement('script');
+    script.src = "https://vlibras.gov.br/app/vlibras-plugin.js";
+    script.onload = () => {
+      new window.VLibras.Widget();
+
+      // Simula clique para ativar o botão
+      const tryActivateVLibras = setInterval(() => {
+        const accessButton = document.querySelector("[vw-access-button]");
+        if (accessButton) {
+          accessButton.click();
+          clearInterval(tryActivateVLibras);
+        }
+      }, 500);
+
+      // Observa o botão de fechar
+      const checkButtons = setInterval(() => {
+        const closeButton = document.querySelector(".vpw-header-btn-close");
+        if (closeButton) {
+          closeButton.addEventListener("click", () => {
+            window.VLibrasChannel.postMessage("vlibrasClosed");
+          });
+          clearInterval(checkButtons);
+        }
+      }, 1000);
+    };
+    document.head.appendChild(script);
+
+    // Função chamada pelo Flutter para atualizar o texto
+    function atualizarTexto(texto) {
+      const el = document.getElementById("conteudo");
+      el.textContent = texto;
+
+      // Simula clique para o VLibras reconhecer o novo conteúdo
+      const event = new MouseEvent('click', {
+        bubbles: true,
+        cancelable: true,
+        view: window
+      });
+      el.dispatchEvent(event);
+    }
+  </script>
+</body>
+</html>
