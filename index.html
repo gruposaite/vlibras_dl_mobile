@@ -9,7 +9,7 @@
   </style>
 </head>
 <body>
-  <div id="conteudo">Aguardando texto do Flutter...</div>
+  <div id="conteudo">Este é um exemplo de conteúdo para o VLibras.</div>
 
   <!-- Plugin VLibras -->
   <div vw class="enabled">
@@ -24,7 +24,7 @@
     const script = document.createElement('script');
     script.src = "https://vlibras.gov.br/app/vlibras-plugin.js";
     script.onload = () => {
-      new window.VLibras.Widget();
+      new window.VLibras.Widget('https://vlibras.gov.br/app');
 
       // Simula clique para ativar VLibras
       const tryActivateVLibras = setInterval(() => {
